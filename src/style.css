@@ -1,0 +1,37 @@
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;  
+}
+
+body {
+    margin: 0;
+    background-color: #e5ebf1;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 420px;
+}
+
+.errorMessage {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: end;
+  color: red;
+  font-size: 12px;
+  align-self: flex-end;
+  margin: 0;
+}
