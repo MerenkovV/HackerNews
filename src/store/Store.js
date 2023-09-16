@@ -3,9 +3,10 @@ import { makeAutoObservable } from "mobx"
 
 const pageUsers = 50;
 
-class mainPageStore {
+class Store {
 
     state = {
+        currentPost: [],
         newsInfo: [],
         isFetching: false,
         isAdding: false
@@ -17,6 +18,19 @@ class mainPageStore {
         setInterval(() => { this.getUpdatedNews(1, true) }, 60000)
     }
 
+    getPostById = (id) => {
+        this.state.isFetching = true
+        axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
+                        .then((info) => {
+                            this.setPost(info.data)
+                        })
+    }
+
+    setPost = (info) => {
+        this.state.currentPost = info
+        this.state.isFetching = false
+    }
+
     getUpdatedNews = (page, reset) => {
         let obj = []
         if (reset) this.state.isFetching = true
@@ -26,8 +40,6 @@ class mainPageStore {
                 obj.push(item)
             })
         }
-
-        
         axios.get('https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
             .then((info) => {
                 let pageElements = info.data.slice(pageUsers * (page - 1), pageUsers * page)
@@ -38,13 +50,14 @@ class mainPageStore {
                     axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
                         .then((info) => {
                             obj.push({ title: info.data.title, id, by: info.data.by, time: info.data.time, score: info.data.score })
-                            obj.length === length - 1 && this.setPostInfo(obj)
+                            obj.length === length - 1 && this.setPostsInfo(obj)
                         })
+                        .catch(()=>{console.error("Error on getUpdatedNews");})
                 })
             })
     }
 
-    setPostInfo = (obj) => {
+    setPostsInfo = (obj) => {
         obj.sort((a, b)=>{
             return b.id - a.id
         })
@@ -57,4 +70,4 @@ class mainPageStore {
 }
 
 
-export default new mainPageStore
+export default new Store

@@ -61,6 +61,7 @@ module.exports = {
         extensions: ['.js', '.jsx']
     },
     devServer: {
+        port: 3000,
         static: {
             directory: path.join(__dirname, './dist'),
           },
