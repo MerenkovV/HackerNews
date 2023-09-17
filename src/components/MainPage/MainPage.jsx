@@ -14,7 +14,7 @@ const MainPage = observer(() => {
 
   let postsElements = Store.state.newsInfo.map(post => {
 
-    return <Link to={"/article?id=" + post.id} style={{display: "block", marginTop: "5px", color: "black", textDecoration: "none"}} key={post.id} onClick={() => {Store.getPostById(post.id)}}>{post.title}___{post.by}___{post.score}======={post.time}</Link>
+    return <Link to={"/article?id=" + post.id} style={{display: "block", marginTop: "5px", color: "black", textDecoration: "none"}} key={post.id} onClick={() => {Store.getPostById(post.id); Store.setComments([])}}>{post.title}___{post.by}___{post.score}======={post.time}</Link>
   })
   return (
     <div>

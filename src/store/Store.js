@@ -37,68 +37,7 @@ class Store {
                     type:info.data.type,
                     url:info.data.url
                 })
-                this.getRootCommentsById(info.data.kids)
-            })
-    }
-
-    changeKidElements2 = async(RootIdArray, isRoot, commentsCopy = this.state.currentComments) => {
-        //for(let currentId = 0; currentId !== RootIdArray[RootIdArray.length - 1]; currentId++){
-            commentsCopy = commentsCopy.map(kid=>{
-                if(RootIdArray.includes(kid.id)){
-                    if(kid.id !== RootIdArray[RootIdArray.length - 1]){
-                        this.changeKidElements(RootIdArray, false, kid.kidElements)
-                        .then(array=>array)
-                    }else{
-                        this.getKidsCommentsById(RootIdArray[RootIdArray.length - 1], kid)
-                            .then(array=>array)
-                    }
-                }else{
-                    return kid
-                }
-                    return commentsCopy
-            })}
-
-    changeKidElements = (RootIdArray, isRoot, commentsCopy = this.state.currentComments) => {
-        //for(let currentId = 0; currentId !== RootIdArray[RootIdArray.length - 1]; currentId++){
-            commentsCopy = commentsCopy.map(kid=>{
-                if(RootIdArray.includes(kid.id)){
-                    if(kid.id !== RootIdArray[RootIdArray.length - 1]){
-                        this.changeKidElements2(RootIdArray, false, kid.kidElements)
-                        .then(array=>array)
-                    }else{
-                        this.getKidsCommentsById(RootIdArray[RootIdArray.length - 1], kid)
-                            .then(array=>array)
-                    }
-                }else{
-                    return kid
-                }
-                if(isRoot){
-                    this.state.currentComments = commentsCopy
-                }else{
-                    return commentsCopy
-                }
-            })
-
-
-            // commentsCopy.map(element => {
-            //     element.id === RootIdArray[currentId] ? 
-            // }) = this.state.currentComments.find(element => element.id === RootIdArray[currentId])
-        //}
-    }
-
-    getKidsCommentsById = async(RootId, rootElement) => {
-        let commentsArray = []
-            if(rootElement.kids === undefined) return rootElement
-            rootElement.kids.map(id=>{
-            axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
-            .then((info) => {
-                commentsArray.push({...info.data})
-                if(rootElement.kids.length === commentsArray.length) {
-                    rootElement.kidElements = commentsArray
-                    rootElement.isOpened = true
-                    return rootElement
-                }
-            })
+                info.data.kids && this.getRootCommentsById(info.data.kids)
             })
     }
 
