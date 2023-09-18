@@ -1,0 +1,8 @@
+.reload{
+    transform: translateY(-20px);
+}
+
+.loading{
+    transform: translate(5px, -13px);
+    margin-right: 20px;
+}

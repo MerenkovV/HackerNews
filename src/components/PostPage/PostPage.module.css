@@ -1,0 +1,12 @@
+.topBar{
+    position: absolute;
+    transform: translateY(-15px);
+}
+.time{
+    padding-left: 30px;
+}
+.source{
+    padding: 0px 14px;
+    height: 25px;
+    margin-bottom: 10px;
+}

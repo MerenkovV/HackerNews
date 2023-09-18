@@ -15,9 +15,9 @@ export const changeKidElements = async (RootIdArray, isRoot, commentsCopy = Stor
             return kid
         }
         if (isRoot) {
-            Store.setComments(commentsCopy.sort((a, b) => b.id - a.id))
+            Store.setComments(commentsCopy.sort((a, b) => a.id - b.id))
         } else {
-            return commentsCopy.sort((a, b) => b.id - a.id)
+            return commentsCopy.sort((a, b) => a.id - b.id)
         }
     })
 }
@@ -30,7 +30,7 @@ const getKidsCommentsById = async (rootElement) => {
             .then((info) => {
                 commentsArray.push({ ...info })
                 if (rootElement.kids.length === commentsArray.length) {
-                    rootElement.kidElements = commentsArray.sort((a, b) => b.id - a.id)
+                    rootElement.kidElements = commentsArray.sort((a, b) => a.id - b.id)
                     rootElement.isOpened = true
                     return rootElement
                 }
@@ -38,8 +38,8 @@ const getKidsCommentsById = async (rootElement) => {
     })
 }
 
-export const getPostById = (id) => {
-    Store.setFetchingPost()
+export const getPostById = (id, getDescendants = false) => {
+    !getDescendants && Store.setFetchingPost()
     apiFunctions.getItems(id)
         .then((info) => {
             Store.setPost({
@@ -53,11 +53,11 @@ export const getPostById = (id) => {
                 type: info.type,
                 url: info.url
             })
-            info.kids && getRootCommentsById(info.kids)
+            info.kids && getRootComments(info.kids)
         })
 }
 
-export const getRootCommentsById = (kids) => {
+export const getRootComments = (kids) => {
     let commentsArray = []
     Store.setFetchingComments()
     kids.map((id) => {
@@ -67,13 +67,13 @@ export const getRootCommentsById = (kids) => {
                     id: info.id, text: info.text,
                     kids: info.kids, isOpened: false
                 })
-                if (commentsArray.length === kids.length) Store.setComments(commentsArray.sort((a, b) => b.id - a.id))
+                if (commentsArray.length === kids.length) Store.setComments(commentsArray.sort((a, b) => a.id - b.id))
             })
     })
 }
 
 export const getUpdatedNews = (page, mode) => {
-    const pageUsers = 50;
+    const pageUsers = 100;
     let arrayWithPosts = []
     if (mode === "reset" && page === 1) {
         Store.setFetchingMain(true)
