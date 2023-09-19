@@ -8,9 +8,11 @@ export const apiFunctions = {
     getItems(id) {
         return connection.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
         .then(info=>info.data)
+        .catch(() => { console.error("Connection error"); })
     },
     getNewsId() {
         return axios.get('https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
         .then(info=>info.data)
+        .catch(() => { console.error("Connection error"); })
     }
 }

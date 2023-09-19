@@ -19,9 +19,7 @@ const nextPage = () => {
 
 const MainPage = observer(() => {
 
-  let postsElements = Store.state.newsInfo.map(post => {
-
-    return <Card size="small"
+  let postsElements = Store.state.newsInfo.map(post => <Card key={post.id} size="small"
       title={<Link onClick={() => { getPostById(post.id); Store.setComments([]) }}
         to={"/article?id=" + post.id}>{post.title}</Link>}>
       <div>
@@ -29,8 +27,7 @@ const MainPage = observer(() => {
         <span style={{marginRight: "13px"}}><ClockCircleOutlined /> {post.time}</span>
         <span><StarOutlined /> {post.score}</span>
       </div>
-      </Card>
-  })
+      </Card>)
 return (
   <Layout>
     <Header style={headerStyle}></Header>

@@ -7,9 +7,11 @@ export const changeKidElements = async (RootIdArray, isRoot, commentsCopy = Stor
             if (kid.id !== RootIdArray[RootIdArray.length - 1]) {
                 changeKidElements(RootIdArray, false, kid.kidElements)
                     .then(array => array)
+                    .catch(() => { console.error("Error on changeKidElements"); })
             } else {
                 getKidsCommentsById(kid)
                     .then(array => array)
+                    .catch(() => { console.error("Error on getKidsCommentsById"); })
             }
         } else {
             return kid
@@ -35,6 +37,7 @@ const getKidsCommentsById = async (rootElement) => {
                     return rootElement
                 }
             })
+            .catch(() => { console.error("Error on getKidsCommentsById - getItems"); })
     })
 }
 
@@ -55,6 +58,7 @@ export const getPostById = (id, getDescendants = false) => {
             })
             info.kids && getRootComments(info.kids)
         })
+        .catch(() => { console.error("Error on getPostById - getItems"); })
 }
 
 export const getRootComments = (kids) => {
@@ -69,6 +73,7 @@ export const getRootComments = (kids) => {
                 })
                 if (commentsArray.length === kids.length) Store.setComments(commentsArray.sort((a, b) => a.id - b.id))
             })
+            .catch(() => { console.error("Error on getRootComments - getItems"); })
     })
 }
 
@@ -111,9 +116,10 @@ export const getUpdatedNews = (page, mode) => {
                         })
                         arrayWithPosts.length === length - 1 && Store.setPostsInfo(arrayWithPosts)
                     })
-                    .catch(() => { console.error("Error on getUpdatedNews"); })
+                    .catch(() => { console.error("Error on getUpdatedNews - getItems"); })
             })
         })
+        .catch(() => { console.error("Error on getUpdatedNews - getNewsId"); })
 }
 
 const convertTime = (time) => {
